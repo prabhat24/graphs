@@ -31,12 +31,10 @@ def print_all_paths(graph, src, dest, visited, psf):
 	if src == dest:
 		print(psf)
 	else:
-		neighbours = graph.graph.get(src, None)
 		visited[src] = True
-		if neighbours:
-			for neighbour in neighbours:
-				if visited.get(neighbour.dest, False) == False:
-					print_all_paths(graph, neighbour.dest, dest, visited, psf + " " + str(neighbour.dest))
+		for neighbour in graph.graph.get(src, []):
+			if visited.get(neighbour.dest, False) == False:
+				print_all_paths(graph, neighbour.dest, dest, visited, psf + " " + str(neighbour.dest))
 		visited[src] = False
 
 if __name__ == '__main__':
