@@ -16,28 +16,31 @@ class Graph():
 			self.graph[dest] = dest_list
 
 
-def bfs(graph, st_vertex):
+def is_bipartite(graph, st_vertex):
 	visited = dict()
 	d = deque()
-	d.append(st_vertex)
+	d.append((st_vertex, 0))
+	set1, set2 = list(), list() 
 	while len(d) != 0:
-		cur_vertex = d[0]
+		cur_vertex, level = d[0]
 		d.popleft()
-		if visited.get(cur_vertex, False) == False:
-			visited[cur_vertex] = True
-			print(cur_vertex)
+		if visited.get(cur_vertex, -1) == -1:
+			visited[cur_vertex] = level
 			for ver in graph.graph.get(cur_vertex, []):
-				if not visited.get(ver, False):
-					d.append(ver)
+				if visited.get(ver, -1) == -1:
+					d.append((ver, level + 1))
+		else:
+			prev_l = visited.get(cur_vertex)
+			if prev_l % 2 != level%2:
+				return False
+	return True
+
 
 if __name__ == '__main__':
-	graph = Graph(6)
-	graph.add_edge("modi", "trump", True)
-	graph.add_edge("putin", "trump", True)
-	graph.add_edge("putin", "pope", True)
-	graph.add_edge("putin", "modi", True)
-	graph.add_edge("modi", "yogi", True)
-	graph.add_edge("prabhu", "modi", True)
-	graph.add_edge("yogi", "prabhu", True)
+	graph = Graph(7)
+	graph.add_edge(0, 1, True)
+	graph.add_edge(1, 2, True)
+	graph.add_edge(2, 3, True)
+	graph.add_edge(0, 3, True)
 	print(graph.graph)
-	bfs(graph, "modi")
+	print(is_bipartite(graph, 0))

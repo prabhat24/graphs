@@ -16,7 +16,7 @@ class Graph():
 			self.graph[dest] = dest_list
 
 
-def bfs(graph, st_vertex):
+def is_cyclic(graph, st_vertex):
 	visited = dict()
 	d = deque()
 	d.append(st_vertex)
@@ -29,15 +29,16 @@ def bfs(graph, st_vertex):
 			for ver in graph.graph.get(cur_vertex, []):
 				if not visited.get(ver, False):
 					d.append(ver)
+		else:
+			return True
+	return False
 
 if __name__ == '__main__':
 	graph = Graph(6)
-	graph.add_edge("modi", "trump", True)
-	graph.add_edge("putin", "trump", True)
-	graph.add_edge("putin", "pope", True)
-	graph.add_edge("putin", "modi", True)
-	graph.add_edge("modi", "yogi", True)
-	graph.add_edge("prabhu", "modi", True)
-	graph.add_edge("yogi", "prabhu", True)
+	graph.add_edge("A", "B", True)
+	graph.add_edge("B", "C", True)
+	graph.add_edge("C", "D", True)
+	graph.add_edge("D", "A", True)
+
 	print(graph.graph)
-	bfs(graph, "modi")
+	print(is_cyclic(graph, "A"))
