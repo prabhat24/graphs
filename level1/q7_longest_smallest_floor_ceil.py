@@ -1,4 +1,5 @@
 import sys
+import heapq
 
 class Graph():
 	class Node:
@@ -35,6 +36,7 @@ class Solution:
 	floor_path_cost = 0
 	ceil_path = ""
 	ceil_path_cost = 1<<32 - 1
+	h = list()
 	@classmethod
 	def stats_for_all_paths(cls, graph, src, dest, visited, wsf, psf, criteria):
 		if src == dest:
@@ -50,6 +52,8 @@ class Solution:
 			if wsf > criteria  and wsf <= cls.ceil_path_cost:
 				cls.ceil_path_cost = wsf
 				cls.ceil_path = psf
+			# kth smallest/ largest
+			heapq.heappush(cls.h, (wsf, psf))
 
 		else:
 			neighbours = graph.graph.get(src, None)
@@ -80,6 +84,7 @@ if __name__ == '__main__':
 	display(graph.graph)
 	source = 0
 	destination = 6
+	k = 2
 	Solution.stats_for_all_paths(graph, source, destination, dict(), 0, str(source), 40)
 	print('lcost_path', Solution.l_cost_path)
 	print('l_cost', Solution.l_cost)
@@ -89,4 +94,6 @@ if __name__ == '__main__':
 	print('floor_path_cost', Solution.floor_path_cost)
 	print('ceil_path', Solution.ceil_path)
 	print('ceil_path_cost', Solution.ceil_path_cost)
+	print('kth largest', Solution.h[len(Solution.h)-k])
+	print('kth smallest', Solution.h[k - 1])
 
