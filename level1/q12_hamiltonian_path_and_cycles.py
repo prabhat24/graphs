@@ -35,6 +35,7 @@ def all_nodes_visited(visited, graph):
 
 def print_hamiltonian_paths_cycles(graph, c,src, t_src, visited, psf):
 	visited[t_src] = True
+	# if c == len(self.graph) - 1:  
 	if all_nodes_visited(visited, graph):
 		if t_src in [neigh.dest for neigh in graph.graph.get(src, None)]:
 			print(psf + " *")
