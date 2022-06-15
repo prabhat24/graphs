@@ -8,6 +8,7 @@ def all_visited(board):
 
 def print_knights_tour(board, move, posr, posc):
 	board[posr][posc] = move
+	# if move == R * C would be better condition
 	if all_visited(board):
 		for lis in board:
 			print(lis)
