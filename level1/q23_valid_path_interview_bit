@@ -1,0 +1,52 @@
+# Valid Path -> https://www.interviewbit.com/problems/valid-path/
+
+class Solution:
+    # @param A : integer
+    # @param B : integer
+    # @param C : integer
+    # @param D : integer
+    # @param E : list of integers
+    # @param F : list of integers
+    # @return a strings
+    def solve(self, x, y, N, R, A, B):
+
+        board = [[0] * (x+1) for k in range(0, y+1)]
+        for i in range(0, x+1):
+            for j in range(0, y+1):
+                for k in range(0, N):
+                    if (A[k]-i)**2 + (B[k]-j)**2 <= R ** 2:
+                        board[j][i] = -1
+        if board[0][0] == -1 or board[y][x] == -1:
+            return "NO"
+        if self.dfs(board, 0, 0, x, y):
+            return "YES"
+        return "NO"
+    
+    
+    def dfs(self, board, src_r, src_c, x, y):
+        paths = [(1, 0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1), (0,-1), (1,-1)]
+        
+        if src_r==x and src_c == y:
+            return True
+        
+        board[src_c][src_r] = 1
+        
+        for pr, pc in paths:
+            if src_r + pr >= 0 and src_r + pr <= x and src_c + pc >=0 and src_c + pc <= y:
+                if board[src_c + pc][src_r + pr] == 0:
+                    is_path = self.dfs(board, src_r + pr, src_c + pc, x, y)
+                    if is_path:
+                        return True
+        return False
+        
+        
+
+if __name__ == "__main__":
+    x = 5
+    y = 4
+    N = 2
+    R = 1
+    A = [2, 3]
+    B = [3, 2]
+    sol = Solution()
+    print(sol.solve(x, y, N, R, A, B))
